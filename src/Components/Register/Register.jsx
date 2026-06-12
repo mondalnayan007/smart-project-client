@@ -5,7 +5,8 @@ import { AuthContext } from '../../Context/AuthContext';
 
 const Register = () => {
 
-    const {googleSignIn} = use(AuthContext);
+    const {googleSignIn,signInUser, user,
+        loading} = use(AuthContext);
 
 
     const handleRegister = (e) => {
@@ -15,6 +16,10 @@ const Register = () => {
         const url = e.target.url.value;
         const password = e.target.password.value;
         console.log(name, email, url, password);
+
+        signInUser(email,password)
+        .then(res => {console.log(res);})
+        .catch(err=>{console.log(err);})
 
 
     }
