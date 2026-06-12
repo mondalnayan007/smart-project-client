@@ -1,4 +1,6 @@
+
 import React from 'react';
+import { Link } from 'react-router';
 
 const Login = () => {
     return (
@@ -8,8 +10,7 @@ const Login = () => {
                     <div className="text-center ">
                         <h1 className="text-5xl font-bold">Login now!</h1>
                         <p className="py-6">
-                            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
-                            quasi. In deleniti eaque aut repudiandae et a id nisi.
+                           New in this website ? <Link to={'/register'} className='text-blue-600'>Register</Link>
                         </p>
                     </div>
                     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">

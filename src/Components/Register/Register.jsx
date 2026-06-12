@@ -1,5 +1,5 @@
 import React, { use } from 'react';
-import { Link } from 'react-router';
+import { data, Link } from 'react-router';
 import { AuthContext } from '../../Context/AuthContext';
 
 
@@ -26,7 +26,29 @@ const Register = () => {
 
     const handleGoogleSignIn =()=>{
         googleSignIn()
-        .then(res => {console.log(res);})
+        .then(res => {
+
+
+            const newUser = {
+                name:res.user.displayName,
+                email:res.user.email,
+                image:res.user.photoURL
+            }
+
+            
+            fetch('http://localhost:3000/users',{
+                  method:"POST",
+                  headers:{
+                    'Content-type': 'application/json'
+                  },
+                  body: JSON.stringify(newUser)
+            })
+            .then(res=>res.json())
+            .then(data=>{
+                console.log(data);
+            })
+
+            console.log(res);})
         .catch(err =>{
             console.log(err);
         })
