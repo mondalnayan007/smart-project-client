@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 const LatestProductCard = ({ product }) => {
     const {
@@ -9,10 +10,11 @@ const LatestProductCard = ({ product }) => {
         price_min,
         price_max,
         condition,
+        _id
     } = product;
 
     return (
-        <div className="card bg-base-100 shadow-lg border border-gray-200 overflow-hidden">
+        <Link to={`/productDetails/${_id}`} className="card bg-base-100 shadow-lg border border-gray-200 overflow-hidden">
             <figure className="h-56 overflow-hidden">
                 <img
                     src={image}
@@ -50,7 +52,7 @@ const LatestProductCard = ({ product }) => {
                     </button>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 };
 
