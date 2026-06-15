@@ -1,6 +1,7 @@
 import { use, useRef } from "react";
 import { useLoaderData, Link } from "react-router";
 import { AuthContext } from '../../Context/AuthContext'
+import Swal from "sweetalert2";
 
 const ProductDetails = () => {
     const product = useLoaderData();
@@ -19,28 +20,36 @@ const ProductDetails = () => {
         const email = e.target.email.value;
         const bid = e.target.bid.value;
         const id = product._id
-        console.log(name,email,bid,id);
+        console.log(name, email, bid, id);
 
         const newBid = {
             product: id,
-            buyer_name:name,
-            buyer_email:email,
-            buyer_image:user.photoURL,
-            bid_price:bid,
-            status:"Pending"
+            buyer_name: name,
+            buyer_email: email,
+            buyer_image: user.photoURL,
+            bid_price: bid,
+            status: "Pending"
 
         }
-        fetch('http://localhost:3000/bids',{
-            method:'POST',
-            headers:{
+        fetch('http://localhost:3000/bids', {
+            method: 'POST',
+            headers: {
                 'Content-type': 'application/json'
             },
-            body:JSON.stringify(newBid)
+            body: JSON.stringify(newBid)
         })
-        .then(res=>res.json())
-        .then(data =>{
-            console.log('after placing bid',data);
-        })
+            .then(res => res.json())
+            .then(data => {
+                console.log('after placing bid', data);
+                if (data.insertedId) {
+                    Swal.fire({
+                        title: "Bid is placed",
+                        icon: "success",
+                        draggable: true
+                    });
+                    ref.current.close();
+                }
+            })
 
 
     }
@@ -205,12 +214,12 @@ const ProductDetails = () => {
 
                         <dialog ref={ref} className="modal modal-bottom sm:modal-middle">
                             <div className="modal-box">
-                                 
-                                    <form method="dialog" className="text-right">
-                                        {/* if there is a button in form, it will close the modal */}
-                                        <button className="text-xl font-bold cursor-pointer">X</button>
-                                    </form>
-                               
+
+                                <form method="dialog" className="text-right">
+                                    {/* if there is a button in form, it will close the modal */}
+                                    <button className="text-xl font-bold cursor-pointer">X</button>
+                                </form>
+
                                 <h3 className="font-bold text-lg text-center">Grab this huge offer</h3>
 
                                 <form onSubmit={handleBidSubmit}>
@@ -228,7 +237,7 @@ const ProductDetails = () => {
                                     </fieldset>
                                 </form>
 
-                               
+
                             </div>
                         </dialog>
                     </div>
