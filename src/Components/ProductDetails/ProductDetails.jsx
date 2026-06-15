@@ -21,6 +21,27 @@ const ProductDetails = () => {
         const id = product._id
         console.log(name,email,bid,id);
 
+        const newBid = {
+            product: id,
+            buyer_name:name,
+            buyer_email:email,
+            buyer_image:user.photoURL,
+            bid_price:bid,
+            status:"Pending"
+
+        }
+        fetch('http://localhost:3000/bids',{
+            method:'POST',
+            headers:{
+                'Content-type': 'application/json'
+            },
+            body:JSON.stringify(newBid)
+        })
+        .then(res=>res.json())
+        .then(data =>{
+            console.log('after placing bid',data);
+        })
+
 
     }
 
