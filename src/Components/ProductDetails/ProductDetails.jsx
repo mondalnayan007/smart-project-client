@@ -1,7 +1,15 @@
+import { useRef } from "react";
 import { useLoaderData, Link } from "react-router";
 
 const ProductDetails = () => {
     const product = useLoaderData();
+    const ref = useRef(null)
+
+
+    const handleBidModalOpen =()=>{
+        ref.current.showModal();
+
+    }
 
     if (!product) {
         return (
@@ -42,17 +50,18 @@ const ProductDetails = () => {
     });
 
     return (
-        <div className="bg-[#f8fafc] min-h-screen p-4 md:p-8 font-sans antialiased text-gray-800">
+       <div>
+            <div className="bg-[#f8fafc] min-h-screen p-4 md:p-8 font-sans antialiased text-gray-800">
             <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
-                
+
                 {/* ================= LEFT COLUMN (Image & Description) ================= */}
                 <div className="lg:col-span-5 space-y-6">
                     {/* Product Image Box */}
                     <div className="bg-[#e2e2e2] rounded-xl overflow-hidden aspect-[4/3] flex justify-center items-center shadow-sm">
                         {image ? (
-                            <img 
-                                src={image} 
-                                alt={title} 
+                            <img
+                                src={image}
+                                alt={title}
                                 className="w-full h-full object-cover"
                             />
                         ) : (
@@ -63,15 +72,15 @@ const ProductDetails = () => {
                     {/* Product Description Box */}
                     <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                         <h3 className="text-xl font-bold text-[#1e293b] mb-4">Product Description</h3>
-                        
+
                         {/* Condition & Usage Info */}
                         <div className="flex justify-between border-b border-gray-100 pb-4 mb-4 text-sm">
                             <div>
-                                <span className="text-purple-600 font-semibold">Condition :</span> 
+                                <span className="text-purple-600 font-semibold">Condition :</span>
                                 <span className="font-medium text-gray-700 ml-1">{condition}</span>
                             </div>
                             <div>
-                                <span className="text-purple-600 font-semibold">Usage Time :</span> 
+                                <span className="text-purple-600 font-semibold">Usage Time :</span>
                                 <span className="font-medium text-gray-700 ml-1">{usage}</span>
                             </div>
                         </div>
@@ -122,12 +131,12 @@ const ProductDetails = () => {
                     {/* Seller Information Card */}
                     <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 space-y-4">
                         <h3 className="text-lg font-bold text-[#1e293b]">Seller Information</h3>
-                        
+
                         {/* Seller Avatar & Basic Info */}
                         <div className="flex items-center gap-3">
-                            <img 
-                                src={seller_image || "https://via.placeholder.com/150"} 
-                                alt={seller_name} 
+                            <img
+                                src={seller_image || "https://via.placeholder.com/150"}
+                                alt={seller_name}
                                 className="w-12 h-12 rounded-full object-cover bg-gray-100"
                             />
                             <div>
@@ -154,13 +163,34 @@ const ProductDetails = () => {
                     </div>
 
                     {/* Action Button */}
-                    <button className="w-full bg-[#7c3aed] hover:bg-[#6d28d9] text-white font-bold py-4 px-6 rounded-xl transition duration-200 shadow-md shadow-purple-100 text-center tracking-wide">
+                    <button onClick={handleBidModalOpen} className="w-full bg-[#7c3aed] hover:bg-[#6d28d9] text-white font-bold py-4 px-6 rounded-xl transition duration-200 shadow-md shadow-purple-100 text-center tracking-wide">
                         I Want Buy This Product
                     </button>
+
+                    {/* Open the modal using document.getElementById('ID').showModal() method */}
+                    
+                    <dialog ref={ref} className="modal modal-bottom sm:modal-middle">
+                        <div className="modal-box">
+                            <h3 className="font-bold text-lg">Hello!</h3>
+                            <p className="py-4">Press ESC key or click the button below to close</p>
+                            <div className="modal-action">
+                                <form method="dialog">
+                                    {/* if there is a button in form, it will close the modal */}
+                                    <button className="btn">Close</button>
+                                </form>
+                            </div>
+                        </div>
+                    </dialog>
                 </div>
 
             </div>
         </div>
+
+        {/* bids collection for this product  */}
+        <div>
+
+        </div>
+       </div>
     );
 };
 
