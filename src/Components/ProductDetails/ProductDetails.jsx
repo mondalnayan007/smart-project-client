@@ -2,7 +2,7 @@ import { use, useEffect, useRef, useState } from "react";
 import { useLoaderData, Link } from "react-router";
 import { AuthContext } from '../../Context/AuthContext'
 import Swal from "sweetalert2";
-import BidsCard from "../BidsCard";
+
 
 const ProductDetails = () => {
     const product = useLoaderData();
@@ -50,6 +50,12 @@ const ProductDetails = () => {
                         draggable: true
                     });
                     ref.current.close();
+
+                    newBid._id =data.insertedId;
+                    const newBids = [...bids,newBid]
+                    newBids.sort((a,b)=>b.bid_price - a.bid_price);
+                   
+                    setBids(newBids);
                 }
             })
 
@@ -263,12 +269,12 @@ const ProductDetails = () => {
                         {/* head */}
                         <thead>
                             <tr>
-                                
+                                <th>SL No:</th>
                                 <th>Buyer Name</th>
                                 <th>Buyer Email</th>
                                 <th>Bid Price</th>
                                 <th>Actions</th>
-                                <th>SL No:</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
