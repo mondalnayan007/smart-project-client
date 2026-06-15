@@ -1,12 +1,14 @@
-import { use, useRef } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { useLoaderData, Link } from "react-router";
 import { AuthContext } from '../../Context/AuthContext'
 import Swal from "sweetalert2";
+import BidsCard from "../BidsCard";
 
 const ProductDetails = () => {
     const product = useLoaderData();
     const ref = useRef(null);
     const { user } = use(AuthContext);
+    const [bids, setBids] = useState([]);
 
 
     const handleBidModalOpen = () => {
@@ -26,7 +28,7 @@ const ProductDetails = () => {
             product: id,
             buyer_name: name,
             buyer_email: email,
-            buyer_image: user.photoURL,
+            buyer_image: user?.photoURL,
             bid_price: bid,
             status: "Pending"
 
@@ -53,6 +55,12 @@ const ProductDetails = () => {
 
 
     }
+
+    useEffect(() => {
+        fetch(`http://localhost:3000/bids/${product._id}`)
+            .then(res => res.json())
+            .then(data => { setBids(data) })
+    }, [])
 
     if (!product) {
         return (
@@ -225,10 +233,10 @@ const ProductDetails = () => {
                                 <form onSubmit={handleBidSubmit}>
                                     <fieldset className="fieldset">
                                         <label className="label">Name</label>
-                                        <input type="text" className="input w-full" name="name" readOnly defaultValue={user.displayName} />
+                                        <input type="text" className="input w-full" name="name" readOnly defaultValue={user?.displayName} />
 
                                         <label className="label">Email</label>
-                                        <input type="email" className="input w-full" name="email" readOnly defaultValue={user.email} />
+                                        <input type="email" className="input w-full" name="email" readOnly defaultValue={user?.email} />
 
                                         <label className="label">Your Bid</label>
                                         <input type="text" className="input w-full" name="bid" placeholder="Enter your bid" />
@@ -247,6 +255,60 @@ const ProductDetails = () => {
 
             {/* bids collection for this product  */}
             <div>
+
+                <h1>Bids for this Product : {bids.length}</h1>
+
+                <div className="overflow-x-auto">
+                    <table className="table">
+                        {/* head */}
+                        <thead>
+                            <tr>
+                                
+                                <th>Buyer Name</th>
+                                <th>Buyer Email</th>
+                                <th>Bid Price</th>
+                                <th>Actions</th>
+                                <th>SL No:</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {/* row 1 */}
+
+                            {
+                                bids.map((bid,index) => <tr>
+                                    <td>{index+1}</td>
+                                   
+                                    <td>
+                                        <div className="flex items-center gap-3">
+                                            <div className="avatar">
+                                                <div className="rounded-full h-12 w-12">
+                                                    <img
+                                                        src={bid.buyer_image}
+                                                        alt={bid.buyer_name} />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div className="font-bold">{bid.buyer_name}</div>
+                                                
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>{bid.buyer_email}</div>
+                                    </td>
+                                    <td>$ {bid.bid_price}</td>
+                                    <th>
+                                        <button className="btn btn-ghost btn-xs">details</button>
+                                    </th>
+                                </tr>)
+                            }
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+
 
             </div>
         </div>
