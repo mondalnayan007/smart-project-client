@@ -60,7 +60,7 @@ const Register = () => {
                     <div className="text-center ">
                         <h1 className="text-5xl font-bold">Register Now</h1>
                         <p className="py-6">
-                            Already have an account <Link className='text-blue-600'>Login</Link>
+                            Already have an account <Link to={'/login'} className='text-blue-600'>Login</Link>
                         </p>
                     </div>
                     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">

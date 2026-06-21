@@ -7,6 +7,7 @@ import MyProducts from "../Components/MyProducts/MyProducts";
 import MyBids from "../Components/MyBids/MyBids";
 import Login from "../Components/Login/Login";
 import ProductDetails from "../Components/ProductDetails/ProductDetails";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -34,7 +35,9 @@ export const router = createBrowserRouter([
         },
         {
             path:'/mybids',
-            Component:MyBids
+            element: <PrivateRoute>
+              <MyBids></MyBids>
+            </PrivateRoute>
         },
 
     ]
